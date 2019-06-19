@@ -36,11 +36,12 @@ class DriverTest(tf.test.TestCase):
     # Mock metadata.
     mock_metadata = tf.test.mock.Mock()
     model_validator_driver = driver.Driver(self._logger_config, mock_metadata)
+    src = 'testDriver'
 
     # No blessed model.
     mock_metadata.get_all_artifacts.return_value = []
     self.assertEqual((None, None),
-                     model_validator_driver._fetch_last_blessed_model())
+                     model_validator_driver._fetch_last_blessed_model(src))
 
     # Mock blessing artifacts.
     artifacts = []
@@ -50,12 +51,13 @@ class DriverTest(tf.test.TestCase):
       model_blessing.set_string_custom_property('current_model',
                                                 'uri-%d' % span)
       model_blessing.set_int_custom_property('current_model_id', span)
+      model_blessing.set_string_custom_property('src', src)
       # Only odd spans are "blessed"
       model_blessing.set_int_custom_property('blessed', span % 2)
       artifacts.append(model_blessing.artifact)
     mock_metadata.get_all_artifacts.return_value = artifacts
     self.assertEqual(('uri-3', 3),
-                     model_validator_driver._fetch_last_blessed_model())
+                     model_validator_driver._fetch_last_blessed_model(src))
 
 
 if __name__ == '__main__':

@@ -61,6 +61,7 @@ class ModelValidator(base_component.BaseComponent):
     exec_properties = {
         'blessed_model': None,  # This will be set in driver.
         'blessed_model_id': None,  # This will be set in driver.
+        'unique_name': name or '',  # Used to limit scope of compared models.
     }
     super(ModelValidator, self).__init__(
         component_name=component_name,

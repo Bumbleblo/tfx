@@ -64,6 +64,8 @@ class ExecutorTest(tf.test.TestCase):
             os.path.join(self._source_data_dir, 'trainer/blessed/'),
         'blessed_model_id':
             123,
+        'unique_name':
+            'testDriver',
     }
 
     # Run executor.
@@ -81,6 +83,7 @@ class ExecutorTest(tf.test.TestCase):
     exec_properties = {
         'blessed_model': None,
         'blessed_model_id': None,
+        'unique_name': 'testDriver',
     }
 
     # Run executor.

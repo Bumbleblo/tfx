@@ -160,6 +160,10 @@ class Executor(base_executor.BaseExecutor):
     blessing.set_string_custom_property('current_model', current_model.uri)
     blessing.set_int_custom_property('current_model_id', current_model.id)
 
+    # Denote model src.
+    src = exec_properties['unique_name']
+    blessing.set_string_custom_property('src', src)
+
     # Blessed model.
     blessed_model_dir = exec_properties['blessed_model']
     blessed_model_id = exec_properties['blessed_model_id']
