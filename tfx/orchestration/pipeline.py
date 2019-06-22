@@ -76,7 +76,8 @@ class Pipeline(object):
       pipeline_name: name of the pipeline;
       pipeline_root: path to root directory of the pipeline;
       components: a list of components in the pipeline (optional only for
-      backward compatible purpose to be used with deprecated PipelineDecorator).
+        backward compatible purpose to be used with deprecated
+        PipelineDecorator).
       **kwargs: additional kwargs forwarded as pipeline args.
     """
     # TODO(b/126565661): Add more documentation on this.
@@ -107,9 +108,14 @@ class Pipeline(object):
 
     # Fills in producer map.
     for component in deduped_components:
-      for o in component.outputs.get_all().values():
+      for k, o in component.outputs.get_all().items():
         assert not producer_map.get(0), '{} produced more than once'.format(o)
         producer_map[o] = component
+        # Fill in detailed artifact properties.
+        for artifact in o.get():
+          artifact.name = k
+          artifact.pipeline_name = self.pipeline_args['pipeline_name']
+          artifact.producer_component = component.component_id
 
     # Connects nodes based on producer map.
     for component in deduped_components:
